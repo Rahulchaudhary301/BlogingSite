@@ -1,6 +1,6 @@
 const express=require('express')
 const multer=require('multer')
-//const upload=multer({dest:'upload/'})
+const upload=multer({dest:'upload/'})
 const Router=express.Router()
 const UserRegistration=require('../controller/userController')
 const post=require('../controller/postController')
@@ -13,17 +13,17 @@ const middlieWhere=require('../middleWhaere/middleWhere')
 
 
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, './upload')
-    },
-    filename: function (req, file, cb) {
+// const storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//       cb(null, './upload')
+//     },
+//     filename: function (req, file, cb) {
       
-      cb(null, file.fieldname + '-' + file.originalname)
-    }
-  })
+//       cb(null, file.fieldname + '-' + file.originalname)
+//     }
+//   })
 
-  const upload = multer({ storage: storage })
+  // const upload = multer({ storage: storage })
 
 
 

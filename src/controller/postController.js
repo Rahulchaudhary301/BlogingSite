@@ -31,7 +31,6 @@ const UserPosts = async (req, res) => {
            
         })
 
-        console.log(req.file.path)
 
         const data = await image.save()
 
