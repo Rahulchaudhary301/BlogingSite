@@ -35,7 +35,7 @@ const storage = multer.diskStorage({
 //   })
 
 
-Router.get('/ass' ,(req,res)=>res.send({smg:'Rahul AVi Jinda HAi shamjha'}))
+Router.get('/ass' ,(req,res)=>res.send({smg:'Rahul AVi Jinda'}))
 
 Router.post('/createUser',UserRegistration.UserRegistration)
 
