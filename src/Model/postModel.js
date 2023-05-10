@@ -38,6 +38,7 @@ const UserPost= new mongoose.Schema({
 
     imageUrl:{
         type:String
+        
     }
 
 

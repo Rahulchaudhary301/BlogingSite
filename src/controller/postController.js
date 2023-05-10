@@ -4,6 +4,94 @@ const multer = require('multer')
 
 
 
+const AWS=require('@aws-sdk/client-s3')
+
+//const upload=multer({dest:'upload/'})
+
+
+// const AWS_BUCKET_NAME = 'classroom-training-bucket';
+// const AWS_ACCESS_KEY_ID = 'AKIAY3L35MCRZNIRGT6N';
+// const AWS_SECRET_ACCESS_KEY = '9f+YFBVcSjZWM6DG9R4TUN8k8TGe4X+lXmO4jPiU';
+// const AWS_REGION = 'ap-south-1'; // Update this to the appropriate region for your S3 bucket
+
+
+
+
+// const bucketName = AWS_BUCKET_NAME;
+
+// const awsConfig = {
+//     accessKeyId: AWS_ACCESS_KEY_ID,
+//     secretAccessKey: AWS_SECRET_ACCESS_KEY,
+//     region: AWS_REGION,
+// };
+
+
+// const S3 = new AWS.S3(awsConfig);
+
+
+// //upload to s3
+// const uploadToS3 = (fileData) => {
+//     return new Promise((resolve, reject) => {
+//         const params = {
+//             Bucket: bucketName,
+//             Key: `${Date.now().toString()}.jpg`,
+//             Body: fileData,
+//         };
+        
+//         S3.upload(params, (err, data) => {
+//             if (err) {
+//                 console.log(err);
+//                 return reject(err);
+//             }
+//             console.log('file uploaded succesfully');
+//             return resolve(data.Location);
+//         });
+//     });
+//   };
+  
+  
+
+const aws= require("aws-sdk")
+
+
+
+const uploadFile= async ( file) =>{
+aws.config.update({
+    accessKeyId: "AKIAY3L35MCRZNIRGT6N",
+    secretAccessKey: "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",
+    region: "ap-south-1"
+})
+
+   return new Promise( function(resolve, reject) {
+    let s3= new aws.S3({apiVersion: '2006-03-01'}); 
+
+    var uploadParams= {
+        ACL: "public-read",
+        Bucket: "classroom-training-bucket",  
+        Key: "abc/" + file.originalname, 
+        Body: file.buffer
+    }
+
+    s3.upload( uploadParams, function (err, data ){
+        if(err) {
+            return reject({"error": err})
+        }
+        console.log("file uploaded succesfully")
+        return resolve(data.Location)
+    })
+   })
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -12,19 +100,33 @@ const UserPosts = async (req, res) => {
 
     try {
         const Data = req.body
-        console.log("rahul Rahul Chaudhary")
+        
+
        // const userID = req.params.userId || req.body.userID
         const {userID, title, description, Post_status ,like } = Data
            
          if(!title && !description && !Post_status) return res.status(400).send({ status: false, msg: "All field is Require" })
           
+       
+           
+             const url =  await uploadFile(req.file)
+                .then((result)=>{
+                    
+                   return result
+                })
+                .catch((err)=>{
+                    console.log("wrong")
+                    console.log(err.message)
+                })
+            
+
         const image = new postModel({
 
              userID: userID,
              title: title,
              description: description,
              Post_status: Post_status,
-             imageUrl:req.file.path,
+             imageUrl:url,
              like:like,
              likeData:[]
 
