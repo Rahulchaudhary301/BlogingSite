@@ -13,7 +13,7 @@ const authenticate = (req, res, next) => {
           if (!token) return res.status(400).send({ status: false, msg: "token must be present" });
 
           jwt.verify(token, "RahulBloging", function (err, decode) {
-          if (err) { return res.status(401).send({ status: false, data: "Authentication failed" }) }
+          if (err) { return res.status(401).send({ status: false, msg: "Authentication failed" }) }
           req.decode = decode;
           return  next();
          

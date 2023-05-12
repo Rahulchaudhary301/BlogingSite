@@ -81,9 +81,4 @@ Router.delete('/deletPost',middlieWhere.authenticate,middlieWhere.authorize, pos
 
 
 
-
-
-
-
-
 module.exports=Router
